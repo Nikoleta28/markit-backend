@@ -19,8 +19,8 @@ public class Student {
     private String password;
     private String recordNum;
 
+    //    @JsonIgnore
     @ManyToMany(cascade = CascadeType.REMOVE)
-//    @JsonIgnore
     @JoinTable(
             name = "student_course_list",
             joinColumns = @JoinColumn(name = "student_id"),
@@ -28,12 +28,11 @@ public class Student {
     )
     private List<Course> courseList = new ArrayList<>();
 
+    //    @JsonIgnore
     @OneToMany(mappedBy = "student")
-//    @JsonIgnore
     private List<StudyHours> studyHoursList = new ArrayList<>();
 
     @OneToMany(mappedBy = "student")
-//    @JsonIgnore
     private List<FinalMark> finalMarkList = new ArrayList<>();
 
     @OneToMany(mappedBy = "student")

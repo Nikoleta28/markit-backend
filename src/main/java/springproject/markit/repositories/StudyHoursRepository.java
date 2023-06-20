@@ -19,4 +19,6 @@ public interface StudyHoursRepository extends JpaRepository<StudyHours, Long> {
     StudyHours findByStudentIdAndCourseIdAndStart(Long studentId, Long courseId, LocalDate start);
 
     StudyHours getStudyHoursByIdAndStudentIdAndCourseId(Long id, Long studentId, Long courseId);
+
+
 }

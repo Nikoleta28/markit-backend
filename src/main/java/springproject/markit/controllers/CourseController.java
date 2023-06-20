@@ -36,10 +36,10 @@ public class CourseController {
     }
 
 
-    @GetMapping("/{courseId}")
-    public Optional<Course> getCourseById(@PathVariable Long id) {
-        return courseService.getCourseById(id);
-    }
+//    @GetMapping("/{courseId}")
+//    public Optional<Course> getCourseById(@PathVariable Long id) {
+//        return courseService.getCourseById(id);
+//    }
 
     @PostMapping("/courses")
     public String addNewCourse(@RequestBody Course course, @RequestParam String profName){

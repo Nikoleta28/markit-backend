@@ -19,4 +19,5 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
      void deleteByName(String name);
 
 
+    Course getCourseByName(String name);
 }

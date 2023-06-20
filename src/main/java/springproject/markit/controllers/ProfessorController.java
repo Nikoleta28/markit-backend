@@ -76,7 +76,7 @@ public class ProfessorController {
     }
 
     @PostMapping("/{professorId}/courses")
-    public Professor addCourseToStudent(@PathVariable Long professorId, @RequestBody Course course) {
+    public Professor addCourseToProfessor(@PathVariable Long professorId, @RequestBody Course course) {
         return professorService.addCourseToProfessor(professorId, course);
     }
 

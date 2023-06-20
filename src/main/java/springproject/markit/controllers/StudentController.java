@@ -84,7 +84,7 @@ public class StudentController {
                 if (courseList == null) {
                     student.setCourseList(Arrays.asList(course));
                 }
-                if (courseList.contains(course)) {
+                if (courseList.contains(course)){
                     throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course already exists exist");
                 }
                 courseList.add(course); // Add the existing course to the list
@@ -293,63 +293,6 @@ public class StudentController {
 
     }
 
-//    @PostMapping("/{studentId}/assignmentsmarks")
-//    public Student addAssignmentMarkToStudent(@PathVariable Long studentId, @RequestBody AssignmentMark assignmentMark) {
-//        return studentService.addAssignmentMarkToStudent(studentId, assignmentMark);
-//    }
-
-//    @GetMapping("/{studentId}/course/{courseId}/assignmentMarkList")
-//    public  List<StudentAssignmentMark> getCourseAssignmentMarkList(@PathVariable Long studentId, @PathVariable Long courseId) {
-//
-//        Student student = studentRepository.getStudentById(studentId);
-//        Course course = courseRepository.getCourseById(courseId);
-//
-//       List<StudentAssignmentMark> studentAssignmentMarks =  new ArrayList<>();
-//
-//        if (student != null) {
-//            if (course != null) {
-////                  for(Assignment a: course.getAssignmentList()) {
-////                      //we check if there is an assign mark for the assignment a
-////                      AssignmentMark assToAdd = assignmentMarkRepository.findByStudentIdAndAssignmentId(studentId,a.getId());
-////
-////                      //if there is an assignment mark object
-////                      if(assToAdd != null){
-////                          studentAssignmentMarks.add(new StudentAssignmentMark(assToAdd.getId(), assToAdd.getMark() , a.getTitle()));
-////                      }else{
-////                          //if there is not, we create a new one and give it a null mark
-////                          AssignmentMark am = new AssignmentMark(null);
-////                          am.setStudent(student);
-////                          am.etAssignment(a);
-////                          studentAssignmentMarks.add(new StudentAssignmentMark(am.getId(),a.getTitle()));
-////                      }
-////                  }
-//
-//
-//                for(Assignment a: course.getAssignmentList()){
-//                    AssignmentMark assToAdd = assignmentMarkRepository.findByStudentIdAndAssignmentId(studentId,a.getId());
-//                    if(assToAdd!=null) {
-//                        studentAssignmentMarks.add(new StudentAssignmentMark(assToAdd.getId(), assToAdd.getMark(), a.getTitle()));
-//                    }
-//                    else{
-//
-//                    }
-//
-//
-//                }
-//
-//
-//
-//                  return studentAssignmentMarks;
-//
-//            } else {
-//                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "course doesn't exist");
-//            }
-//        }
-//        else{
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"student doesn't exist");
-//        }
-//
-//    }
 
     @GetMapping("/{studentId}/course/{courseId}/assignmentMarkList")
     public List<StudentAssignmentMark> getCourseAssignmentMarkList(@PathVariable Long studentId, @PathVariable Long courseId) {
@@ -437,83 +380,6 @@ public class StudentController {
     }
 
 
-//    @PostMapping("/{studentId}/course/{courseId}/assignment/{editingAssignmentMarkId}/addAssignmentMark")
-//    public List<StudentAssignmentMark> addAssignmentMarkToStudent(@PathVariable Long studentId,@PathVariable Long courseId,@PathVariable Long editingAssignmentMarkId, @RequestBody Map<String, String> credentials ) {
-//
-//        Student student = studentRepository.getStudentById(studentId);
-//        Course course = courseRepository.getCourseById(courseId);
-////        Assignment assignment = assignmentRepository.getAssignmentById(editingAssignmentMarkId);
-//
-//        Long id = editingAssignmentMarkId;
-//        AssignmentMark assMarkToUpdate = assignmentMarkRepository.getAssignmentMarkById(id);
-//
-//        Float mark = Float.valueOf(credentials.get("mark"));
-//
-//        List<StudentAssignmentMark> studentAssignmentMarks =  new ArrayList<>();
-//
-//        if (student != null) {
-//            if (course != null) {
-////                if(assignment!=null){
-////                    AssignmentMark assignmentMark = new AssignmentMark(mark);
-////
-////                    student.addAssignmentMark(assignmentMark);
-////                    assignmentMark.setStudent(student);
-////                    assignment.addAssignmentMark(assignmentMark);
-////                    assignmentMark.setAssignment(assignment);
-////
-////                    assignmentMarkRepository.save(assignmentMark);
-////
-////                    courseRepository.save(course);
-////                    studentRepository.save(student);
-////
-//////                       return assignmentMark;
-////
-////                    for(Assignment a: course.getAssignmentList()) {
-////                        AssignmentMark assToAdd = assignmentMarkRepository.findByStudentIdAndAssignmentId(studentId,a.getId());
-////                        if(assToAdd != null){
-////                            studentAssignmentMarks.add(new StudentAssignmentMark(assToAdd.getId(), assToAdd.getMark() , a.getTitle()));
-////                        }else{
-////                            AssignmentMark am = new AssignmentMark(assToAdd.getMark());
-////                            studentAssignmentMarks.add(new StudentAssignmentMark(am.getId(),am.getMark(),a.getTitle()));
-////                        }
-////                    }
-////
-////                    return studentAssignmentMarks;
-////
-////                } else {
-////                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "assignment doesn't exist");
-////                }
-//                if (assMarkToUpdate !=null) {
-//                    AssignmentMark updatedAssignmentMark = assignmentMarkService.updateAssignmentMark(id,mark);
-//
-//
-//                    for(Assignment a: course.getAssignmentList()){
-//                        for(AssignmentMark as: a.getAssignmentMarkList()){
-//                            AssignmentMark assToAdd = assignmentMarkRepository.findByStudentIdAndAssignmentId(studentId,a.getId());
-//                            studentAssignmentMarks.add(new StudentAssignmentMark(assToAdd.getId(), assToAdd.getMark() , a.getTitle()));
-//                        }
-//                    }
-//
-//                    return studentAssignmentMarks;
-//
-//                }
-//                else {
-//                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "assignment mark doesn't exist");
-//                }
-//
-//            } else {
-//                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "course doesn't exist");
-//            }
-//        }
-//        else{
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"student doesn't exist");
-//        }
-////        return studentService.addAssignmentMarkToStudent(studentId, assignmentMark);
-//    }
-//
-//
-
-
     @PostMapping("/{studentId}/course/{courseId}/assignment/deleteAssignmentMark")
     public List<StudentAssignmentMark> deleteAssignmentMarkFromStudent(@PathVariable Long studentId, @PathVariable Long courseId, @RequestBody Map<String, String> credentials) {
 
@@ -532,29 +398,6 @@ public class StudentController {
         if (student != null) {
             if (course != null) {
                 if (assToDelete != null) {
-
-//                    student.removeAssignmentMark(assToDelete);
-//                    assignment.removeAssignmentMark(assToDelete);
-
-//
-//                    courseRepository.save(course);
-//                    studentRepository.save(student);
-
-//                    assignmentMarkRepository.delete(assToDelete);
-
-//                    Map<String, String> response = new HashMap<>();
-//                    response.put("message", "Assignment mark deleted");
-//                    return ResponseEntity.ok(response);
-
-//                    for(Assignment a: course.getAssignmentList()) {
-//                        AssignmentMark assToAdd = assignmentMarkRepository.findByStudentIdAndAssignmentId(studentId,a.getId());
-//                        if(assToAdd != null){
-//                            studentAssignmentMarks.add(new StudentAssignmentMark(assToAdd.getId(), assToAdd.getMark() , a.getTitle()));
-//                        }else{
-//                            studentAssignmentMarks.add(new StudentAssignmentMark(a.getId(),a.getTitle()));
-//                        }
-//                    }
-
 
                     assToDelete.setMark(null);
                     assignmentMarkRepository.save(assToDelete);
@@ -807,78 +650,82 @@ public class StudentController {
     }
 
 
-    @GetMapping("{studentId}/course/{courseId}/ranking")
-    public Integer studentRanking(@PathVariable Long studentId, @PathVariable Long courseId) {
+//    @GetMapping("{studentId}/course/{courseId}/ranking")
+//    public Integer studentRanking(@PathVariable Long studentId, @PathVariable Long courseId) {
+//
+//        Student student = studentRepository.getStudentById(studentId);
+//        Course course = courseRepository.getCourseById(courseId);
+//
+//
+//        if (student != null) {
+//            if (course != null) {
+//
+//                List<Student> studentsWithCourse = new ArrayList<>();
+//
+//                //we find the students that have the course
+//                for (Student s : studentRepository.findAll()) {
+//                    if (s.getCourseList().contains(course)) {
+//                        studentsWithCourse.add(s);
+//                    }
+//                }
+//
+//                //calculate the sum of the assignment marks for the assignments in the course
+//                Map<Student, Float> studentAssignmentMarksSum = new HashMap<>();
+//
+//                for (Student s : studentsWithCourse) {
+//                    float assignmentMarksSum = 0;
+//                    for (AssignmentMark assignmentMark : s.getAssignmentMarkList()) {
+//                        if(assignmentMark.getAssignment().getCourse().equals(course) && assignmentMark.getMark()!=null){
+//                            assignmentMarksSum += assignmentMark.getMark() * ((assignmentMark.getAssignment().getPercentage()*1.0)/100.0);
+//                        }
+//
+//                    }
+//                    studentAssignmentMarksSum.put(s, assignmentMarksSum);
+//                }
+//
+//
+//                // Sort the students based on the sum of assignment marks in descending order
+////                List<Map.Entry<Student, Float>> sortedList = new ArrayList<>(studentAssignmentMarksSum.entrySet());
+////                Collections.sort(sortedList, (entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
+//
+//
+//                // Sort the students based on the sum of assignment marks in descending order
+//               List<Map.Entry<Student, Float>> sortedList = new ArrayList<>(studentAssignmentMarksSum.entrySet());
+//               sortedList.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+//
+////                List<Map.Entry<Student, Float>> sortedList = studentAssignmentMarksSum.entrySet()
+////                        .stream()
+////                        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+////                        .collect(Collectors.toList());
+//
+//
+//                int position = -1 ;
+//                for (int i = 0; i < sortedList.size(); i++) {
+//                    if (sortedList.get(i).getKey().getId().equals(studentId)) {
+//                        // Adding 1 to make it readable (1-based index)
+//                       position = i ;
+//                        break;
+//                    }
+//                }
+//
+//
+//                position += 1;
+//               return  position;
+//
+////                return sortedList;
+//
+//            } else {
+//                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "course doesn't exist");
+//            }
+//        } else {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "student doesn't exist");
+//        }
+//
+//
+//    }
 
-        Student student = studentRepository.getStudentById(studentId);
-        Course course = courseRepository.getCourseById(courseId);
 
 
-        if (student != null) {
-            if (course != null) {
-
-                List<Student> studentsWithCourse = new ArrayList<>();
-
-                //we find the students that have the course
-                for (Student s : studentRepository.findAll()) {
-                    if (s.getCourseList().contains(course)) {
-                        studentsWithCourse.add(s);
-                    }
-                }
-
-                //calculate the sum of the assignment marks for the assignments in the course
-                Map<Student, Float> studentAssignmentMarksSum = new HashMap<>();
-
-                for (Student s : studentsWithCourse) {
-                    float assignmentMarksSum = 0;
-                    for (AssignmentMark assignmentMark : s.getAssignmentMarkList()) {
-                        if(assignmentMark.getAssignment().getCourse().equals(course) && assignmentMark.getMark()!=null){
-                            assignmentMarksSum += assignmentMark.getMark() * ((assignmentMark.getAssignment().getPercentage()*1.0)/100.0);
-                        }
-
-                    }
-                    studentAssignmentMarksSum.put(s, assignmentMarksSum);
-                }
-
-
-                // Sort the students based on the sum of assignment marks in descending order
-//                List<Map.Entry<Student, Float>> sortedList = new ArrayList<>(studentAssignmentMarksSum.entrySet());
-//                Collections.sort(sortedList, (entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
-
-
-                // Sort the students based on the sum of assignment marks in descending order
-               List<Map.Entry<Student, Float>> sortedList = new ArrayList<>(studentAssignmentMarksSum.entrySet());
-               sortedList.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
-
-//                List<Map.Entry<Student, Float>> sortedList = studentAssignmentMarksSum.entrySet()
-//                        .stream()
-//                        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-//                        .collect(Collectors.toList());
-
-
-                int position = -1 ;
-                for (int i = 0; i < sortedList.size(); i++) {
-                    if (sortedList.get(i).getKey().getId().equals(studentId)) {
-                        // Adding 1 to make it readable (1-based index)
-                       position = i ;
-                        break;
-                    }
-                }
-
-                position += 1;
-               return  position;
-
-//                return sortedList;
-
-            } else {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "course doesn't exist");
-            }
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "student doesn't exist");
-        }
-
-
-    }
 
 
 

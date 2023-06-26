@@ -35,6 +35,9 @@ public class ProfessorController {
     private CourseRepository courseRepository;
 
     @Autowired
+    AssignmentMarkRepository assignmentMarkRepository;
+
+    @Autowired
     private AssignmentRepository assignmentRepository;
 
     @Autowired
@@ -252,11 +255,24 @@ public class ProfessorController {
             if(course != null) {
                 if(assignmentToDelete != null) {
 
+
+
                     List<Assignment> assignments =  course.getAssignmentList();
                     if(assignments.contains(assignmentToDelete)) {
+
+                        List<AssignmentMark> allAssignmentMarkList= assignmentMarkRepository.findAll();
+                        for (AssignmentMark am: allAssignmentMarkList){
+                            if(am.getAssignment().equals(assignmentToDelete)){
+                                assignmentMarkRepository.delete(am);
+                            }
+                        }
+
                         course.removeAssignment(assignmentToDelete);
 
                     }
+
+
+
 
                     assignmentRepository.delete(assignmentToDelete);
 

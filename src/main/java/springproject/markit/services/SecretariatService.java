@@ -3,8 +3,10 @@ package springproject.markit.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import springproject.markit.models.Professor;
 import springproject.markit.models.Secretariat;
 import springproject.markit.models.Student;
+import springproject.markit.repositories.ProfessorRepository;
 import springproject.markit.repositories.SecretariatRepository;
 import springproject.markit.repositories.StudentRepository;
 
@@ -18,6 +20,15 @@ public class SecretariatService {
 
     @Autowired
     private SecretariatRepository secretariatRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private ProfessorRepository professorRepository;
+
+
+
 
     public List<Secretariat> getSecretariats(){
         return secretariatRepository.findAll();
@@ -47,21 +58,48 @@ public class SecretariatService {
                 "Secretariat with id "+ id +" doesn't exist!"
         ));
 
-        if(university !=null && university.length()> 0 && !Objects.equals(secretariat.getUniversity(),university)){
-            secretariat.setUniversity(university);
-        }
+//        if(university !=null && university.length()> 0 && !Objects.equals(secretariat.getUniversity(),university)){
+//            secretariat.setUniversity(university);
+//        }
 
 
         if(department != null && !department.isBlank() && !department.equals(secretariat.getDepartment())){
             if(secretariatRepository.findSecretariatByDepartment(department).isPresent()){
                 throw new IllegalStateException("This "+ department +" is already taken");
             }
+
+
+            List<Student> st = studentRepository.findAll();
+
+            for(Student student : st)
+            {
+                if(student.getDepartment().equals(secretariat.getDepartment())){
+                    student.setDepartment(department);
+                    studentRepository.save(student);
+                }
+            }
+
+            List<Professor> pr = professorRepository.findAll();
+
+            for(Professor professor : pr)
+            {
+                if(professor.getDepartment().equals(secretariat.getDepartment())){
+                    professor.setDepartment(department);
+                    professorRepository.save(professor);
+                }
+            }
+
             secretariat.setDepartment(department);
+
         }
+
+
+
 
         if(university !=null && university.length()> 0 && !Objects.equals(secretariat.getUniversity(),university)){
             secretariat.setUniversity(university);
         }
+
 
         //two secrs can't have the same email
         if(email != null && !email.isBlank() && !email.equals(secretariat.getEmail())){

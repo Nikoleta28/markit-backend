@@ -20,4 +20,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
 
     Course getCourseByName(String name);
+
+
 }

@@ -6,13 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import springproject.markit.controllers.entities.CourseDTO;
-import springproject.markit.models.Course;
-import springproject.markit.models.Professor;
-import springproject.markit.models.Secretariat;
-import springproject.markit.models.Student;
-import springproject.markit.repositories.CourseRepository;
-import springproject.markit.repositories.ProfessorRepository;
-import springproject.markit.repositories.SecretariatRepository;
+import springproject.markit.models.*;
+import springproject.markit.repositories.*;
 import springproject.markit.services.CourseService;
 import springproject.markit.services.ProfessorService;
 import springproject.markit.services.SecretariatService;
@@ -47,6 +42,21 @@ public class SecretariatController {
 
     @Autowired
     private ProfessorRepository professorRepository;
+
+    @Autowired
+    private FinalMarkRepository finalMarkRepository;
+
+    @Autowired
+    private AssignmentMarkRepository assignmentMarkRepository;
+
+    @Autowired
+    private AssignmentRepository assignmentRepository;
+
+    @Autowired
+    private SyllabusRepository syllabusRepository;
+
+    @Autowired
+    private StudyHoursRepository studyHoursRepository;
 
     @GetMapping("/allSecretariats")
     public List<Secretariat> getSecretariat(){
@@ -163,33 +173,104 @@ public class SecretariatController {
     @DeleteMapping("/{secretariatId}/courses/deleteCourse")
     public List<CourseDTO> deleteCourse(@PathVariable Long secretariatId,  @RequestBody Map<String, String> credentials ){
 
-        Long id = Long.valueOf(credentials.get("id"));
+        Long courseId = Long.valueOf(credentials.get("id"));
         Secretariat secretariat = secretariatRepository.findById(secretariatId).orElse(null);
 
         if (secretariat == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"secretariat doesn't exist");
         }
 
-        Optional<Course> courseToDelete =  courseRepository.findCourseById(id);
+        Course courseToDelete =  courseRepository.getCourseById(courseId);
 
-        if (courseToDelete.isPresent()) {
-            Course deletedCourse = courseToDelete.get();
+        if (courseToDelete!=null) {
+
 
             for (Student s: studentService.getStudents()){
               List<Course> studentCourseList =  s.getCourseList();
-                if(studentCourseList.contains(deletedCourse)){
-                    s.removeCourse(deletedCourse);
-                }
-            }
-            for (Professor p: professorService.getProfessors()){
-                List<Course> profCourseList =  p.getCourseList();
-                if(profCourseList.contains(deletedCourse)){
-                    p.removeCourse(deletedCourse);
+                if(studentCourseList.contains(courseToDelete)){
+
+//                 List<FinalMark> fm = courseToDelete.getFinalMarkList();
+//                 if(!fm.isEmpty()) {
+//                     for (FinalMark f : fm) {
+//                         if (s.getFinalMarkList().contains(f)) {
+//                             s.getFinalMarkList().remove(f);
+//                             fm.remove(f);
+//                             finalMarkRepository.delete(f);
+//                         }
+//                     }
+//                 }
+
+                    List<Assignment> assignments = courseToDelete.getAssignmentList();
+                    for(Assignment as : assignments){
+                        if(!assignments.isEmpty()) {
+                            List<AssignmentMark> assignmentMarks = as.getAssignmentMarkList();
+                            if (!assignmentMarks.isEmpty()) {
+                                for (AssignmentMark am : assignmentMarks) {
+                                    if (s.getAssignmentMarkList().contains(am)) {
+                                        s.getAssignmentMarkList().remove(am);
+                                        as.removeAssignmentMark(am);
+                                        assignmentMarkRepository.delete(am);
+                                    }
+
+                                }
+                            }
+                        }
+                        courseToDelete.getAssignmentList().remove(as);
+                        assignmentRepository.delete(as);
+                    }
+
+
+                   FinalMark studentFinalMark = finalMarkRepository.findByStudentIdAndCourseId(s.getId(),courseToDelete.getId());
+                   if(studentFinalMark!=null){
+                       s.getFinalMarkList().remove(studentFinalMark);
+                       finalMarkRepository.delete(studentFinalMark);
+                   }
+
+                   List<StudyHours> stHours = s.getStudyHoursList();
+                   if(!stHours.isEmpty()){
+                       for(StudyHours sh: stHours ){
+                           if(sh.getCourse() == courseToDelete){
+                               stHours.remove(sh);
+                               courseToDelete.removeStudyHours(sh);
+                               studyHoursRepository.delete(sh);
+                           }
+                       }
+                   }
+
+
+
+                    s.removeCourse(courseToDelete);
                 }
             }
 
-            secretariat.getCourseList().remove(deletedCourse);
-            courseRepository.delete(deletedCourse);
+
+            for (Professor p: professorService.getProfessors()){
+                List<Course> profCourseList =  p.getCourseList();
+                if(profCourseList.contains(courseToDelete)){
+
+                    List<Assignment> assignments = courseToDelete.getAssignmentList();
+                    if(!assignments.isEmpty()) {
+                      for(Assignment as : assignments){
+                            courseToDelete.removeAssignment(as);
+                            assignmentRepository.delete(as);
+                        }
+                    }
+
+                    List<Syllabus> sylls = courseToDelete.getSyllabusList();
+                    if(!sylls.isEmpty()) {
+                       for(Syllabus syl : sylls){
+                            courseToDelete.removeSyllabus(syl);
+                            syllabusRepository.delete(syl);
+                        }
+                    }
+
+
+                    p.removeCourse(courseToDelete);
+                }
+            }
+
+            secretariat.getCourseList().remove(courseToDelete);
+            courseRepository.delete(courseToDelete);
         }
 
         secretariatRepository.save(secretariat);

@@ -372,7 +372,7 @@ public class StudentStatisticsController {
                    if(!sh.isEmpty()){
                        studentSum+=1;
                        for(StudyHours studyHours:sh){
-                           if(studyHours.getHours()!=null){
+                           if(studyHours.getHours()!=null && studyHours.getCourse().equals(course)){
                                studyHoursSum+= studyHours.getHours();
                            }
                        }

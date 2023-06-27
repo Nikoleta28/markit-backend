@@ -427,8 +427,8 @@ public class StudentController {
     public ResponseEntity<Student> updateStudent(@PathVariable("studentId") Long id,
                                                  @RequestBody Map<String, String> credentials) {
         String fullName = credentials.get("fullName");
-        String university = credentials.get("university");
-        String department = credentials.get("department");
+//        String university = credentials.get("university");
+//        String department = credentials.get("department");
 
         String email = credentials.get("email");
 
@@ -436,7 +436,7 @@ public class StudentController {
         String password = credentials.get("password");
 
 
-        Student updatedStudent = studentService.updateStudent(id, fullName, recordNum, email, university, department, password);
+        Student updatedStudent = studentService.updateStudent(id, fullName, recordNum, email, password);
         return ResponseEntity.ok(updatedStudent);
     }
 

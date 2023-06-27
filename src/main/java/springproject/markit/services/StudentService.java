@@ -47,8 +47,8 @@ public class StudentService {
                                  String fullName,
                                  String recordNum,
                                  String email,
-                                 String department,
-                                 String university,
+//                                 String department,
+//                                 String university,
                                  String password
                                  ) {
 
@@ -62,13 +62,13 @@ public class StudentService {
               student.setFullName(fullName);
         }
 
-        if(department !=null && fullName.length()> 0 && !Objects.equals(student.getDepartment(),department)){
-            student.setDepartment(department);
-        }
-
-        if(university !=null && fullName.length()> 0 && !Objects.equals(student.getUniversity(),university)){
-            student.setUniversity(university);
-        }
+//        if(department !=null && fullName.length()> 0 && !Objects.equals(student.getDepartment(),department)){
+//            student.setDepartment(department);
+//        }
+//
+//        if(university !=null && fullName.length()> 0 && !Objects.equals(student.getUniversity(),university)){
+//            student.setUniversity(university);
+//        }
 
         //two students can't have the same email
         if(email != null && !email.isBlank() && !email.equals(student.getEmail())){

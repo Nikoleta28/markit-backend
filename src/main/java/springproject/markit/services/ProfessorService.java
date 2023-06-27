@@ -37,8 +37,8 @@ public class ProfessorService {
     @Transactional
     public Professor updateProfessor(Long id,
                                      String fullName,
-                                     String university,
-                                     String department,
+//                                     String university,
+//                                     String department,
                                      String email,
                                      String password) {
 
@@ -51,13 +51,13 @@ public class ProfessorService {
             professor.setFullName(fullName);
         }
 
-        if (department != null && fullName.length() > 0 && !Objects.equals(professor.getDepartment(), department)) {
-            professor.setDepartment(department);
-        }
-
-        if (university != null && fullName.length() > 0 && !Objects.equals(professor.getUniversity(), university)) {
-            professor.setUniversity(university);
-        }
+//        if (department != null && fullName.length() > 0 && !Objects.equals(professor.getDepartment(), department)) {
+//            professor.setDepartment(department);
+//        }
+//
+//        if (university != null && fullName.length() > 0 && !Objects.equals(professor.getUniversity(), university)) {
+//            professor.setUniversity(university);
+//        }
 
         //two students can't have the same email
         if (email != null && !email.isBlank() && !email.equals(professor.getEmail())) {

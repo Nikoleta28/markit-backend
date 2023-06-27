@@ -101,12 +101,12 @@ public class ProfessorController {
     public ResponseEntity<Professor> updateProfessor(@PathVariable("professorId") Long id,
                                                          @RequestBody Map<String, String> credentials){
         String fullName = credentials.get("fullName");
-        String university = credentials.get("university");
-        String department = credentials.get("department");;
+//        String university = credentials.get("university");
+//        String department = credentials.get("department");;
         String email = credentials.get("email");;
         String password = credentials.get("password");;
 
-        Professor updatedProfessor = professorService.updateProfessor(id,fullName,university,department,email,password);
+        Professor updatedProfessor = professorService.updateProfessor(id,fullName,email,password);
         return ResponseEntity.ok(updatedProfessor);
     }
 
